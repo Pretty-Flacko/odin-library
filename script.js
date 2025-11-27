@@ -21,25 +21,20 @@ function displayLibrary() {
     document.querySelectorAll(".book-item").forEach(book => book.remove());
     
     myLibrary.forEach((bookObj, index) => {
-        const indexDiv = document.createElement("div");
-        indexDiv.classList.add("grid-cell", "book-item");
-        indexDiv.textContent = index + 1;
+        const bookData = [
+            index + 1,
+            bookObj.title,
+            bookObj.author,
+            bookObj.pages,
+            bookObj.read ? "✔" : "✘"
+        ];
 
-        const titleDiv = document.createElement("div");
-        titleDiv.classList.add("grid-cell", "book-item");
-        titleDiv.textContent = bookObj.title;
-
-        const authorDiv = document.createElement("div");
-        authorDiv.classList.add("grid-cell", "book-item");
-        authorDiv.textContent = bookObj.author;
-
-        const pagesDiv = document.createElement("div");
-        pagesDiv.classList.add("grid-cell", "book-item");
-        pagesDiv.textContent = bookObj.pages;
-
-        const readDiv = document.createElement("div");
-        readDiv.classList.add("grid-cell", "book-item");
-        readDiv.textContent = bookObj.read ? "✔" : "✘";
+        bookData.forEach(data => {
+            const div = document.createElement("div");
+            div.classList.add("grid-cell", "book-item");
+            div.textContent = data;
+            bookList.appendChild(div);
+        });
 
         const removeDiv = document.createElement("div");
         removeDiv.classList.add("grid-cell", "book-item");
@@ -47,22 +42,15 @@ function displayLibrary() {
         removeButton.textContent = "Remove";
         removeButton.classList.add("remove-button");
         removeButton.dataset.id = bookObj.id;
-        removeDiv.appendChild(removeButton);
 
         removeButton.addEventListener("click", (e) => {
             const idToRemove = e.target.dataset.id;
             const index = myLibrary.findIndex((b) => b.id === idToRemove);
-            if (index > -1 ) {
-                myLibrary.splice(index, 1);
-            }
+            if (index > -1 ) myLibrary.splice(index, 1);
             displayLibrary();
         });
 
-        bookList.appendChild(indexDiv);
-        bookList.appendChild(titleDiv);
-        bookList.appendChild(authorDiv);
-        bookList.appendChild(pagesDiv);
-        bookList.appendChild(readDiv);
+        removeDiv.appendChild(removeButton);
         bookList.appendChild(removeDiv);
     });
 }
