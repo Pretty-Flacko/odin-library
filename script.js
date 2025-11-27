@@ -93,9 +93,9 @@ form.addEventListener("submit", (event) => {
     displayLibrary();
 });
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "310");
-addBookToLibrary("Dune", "Frank Herbert", "412");
-addBookToLibrary("1984", "George Orwell", "328");
-addBookToLibrary("The Martian", "Andy Weir", "369");
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "310", true);
+addBookToLibrary("Dune", "Frank Herbert", "412", false);
+addBookToLibrary("1984", "George Orwell", "328", true);
+addBookToLibrary("The Martian", "Andy Weir", "369", false);
 setupFormControls();
 displayLibrary();
