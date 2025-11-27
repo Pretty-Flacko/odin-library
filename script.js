@@ -1,5 +1,5 @@
 const myLibrary = [];
-const bookList = document.querySelector("ol");
+const bookList = document.querySelector(".books");
 const dialog = document.querySelector("dialog");
 const form = document.querySelector("form");
 
@@ -18,11 +18,33 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function displayLibrary() {
-    document.querySelectorAll("li").forEach(book => book.remove());
-    myLibrary.forEach(bookObj => {
-        const li = document.createElement("li");
-        li.textContent = `${bookObj.title} by ${bookObj.author} (${bookObj.pages} pages), ${bookObj.read}`;
-        bookList.appendChild(li);
+    document.querySelectorAll(".book-item").forEach(book => book.remove());
+    myLibrary.forEach((bookObj, index) => {
+        const indexDiv = document.createElement("div");
+        indexDiv.classList.add("grid-cell", "book-item");
+        indexDiv.textContent = index + 1;
+
+        const titleDiv = document.createElement("div");
+        titleDiv.classList.add("grid-cell", "book-item");
+        titleDiv.textContent = bookObj.title;
+
+        const authorDiv = document.createElement("div");
+        authorDiv.classList.add("grid-cell", "book-item");
+        authorDiv.textContent = bookObj.author;
+
+        const pagesDiv = document.createElement("div");
+        pagesDiv.classList.add("grid-cell", "book-item");
+        pagesDiv.textContent = bookObj.pages;
+
+        const readDiv = document.createElement("div");
+        readDiv.classList.add("grid-cell", "book-item");
+        readDiv.textContent = bookObj.read ? "✔" : "✘";
+
+        bookList.appendChild(indexDiv);
+        bookList.appendChild(titleDiv);
+        bookList.appendChild(authorDiv);
+        bookList.appendChild(pagesDiv);
+        bookList.appendChild(readDiv);
     });
 }
 
