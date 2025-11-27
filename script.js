@@ -19,6 +19,7 @@ function addBookToLibrary(title, author, pages, read) {
 
 function displayLibrary() {
     document.querySelectorAll(".book-item").forEach(book => book.remove());
+    
     myLibrary.forEach((bookObj, index) => {
         const indexDiv = document.createElement("div");
         indexDiv.classList.add("grid-cell", "book-item");
@@ -40,16 +41,34 @@ function displayLibrary() {
         readDiv.classList.add("grid-cell", "book-item");
         readDiv.textContent = bookObj.read ? "✔" : "✘";
 
+        const removeDiv = document.createElement("div");
+        removeDiv.classList.add("grid-cell", "book-item");
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.classList.add("remove-button");
+        removeButton.dataset.id = bookObj.id;
+        removeDiv.appendChild(removeButton);
+
+        removeButton.addEventListener("click", (e) => {
+            const idToRemove = e.target.dataset.id;
+            const index = myLibrary.findIndex((b) => b.id === idToRemove);
+            if (index > -1 ) {
+                myLibrary.splice(index, 1);
+            }
+            displayLibrary();
+        });
+
         bookList.appendChild(indexDiv);
         bookList.appendChild(titleDiv);
         bookList.appendChild(authorDiv);
         bookList.appendChild(pagesDiv);
         bookList.appendChild(readDiv);
+        bookList.appendChild(removeDiv);
     });
 }
 
 function setupFormControls() {
-    const openDialogButton = document.querySelector("button");
+    const openDialogButton = document.getElementById("add-button");
     const closeDialogButton = document.getElementById("close-button");
     openDialogButton.addEventListener("click", () => dialog.showModal());
     closeDialogButton.addEventListener("click", () => dialog.close());
