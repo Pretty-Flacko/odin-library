@@ -74,7 +74,10 @@ function displayLibrary() {
 function setupFormControls() {
     const openDialogButton = document.getElementById("add-button");
     const closeDialogButton = document.getElementById("close-button");
-    openDialogButton.addEventListener("click", () => dialog.showModal());
+    openDialogButton.addEventListener("click", () => {
+        dialog.showModal();
+        form.reset();
+    });
     closeDialogButton.addEventListener("click", () => dialog.close());
 }
 
@@ -86,6 +89,7 @@ form.addEventListener("submit", (event) => {
     const read = document.getElementById("book-read").checked;
 
     addBookToLibrary(title, author, pages, read);
+    dialog.close();
     displayLibrary();
 });
 
