@@ -11,6 +11,10 @@ function Book(id, title, author, pages, read) {
     this.read = read;
 }
 
+Book.prototype.toggleRead = function() {
+    this.read = !this.read;
+}
+
 function addBookToLibrary(title, author, pages, read) {
     const id = self.crypto.randomUUID();
     const newBook = new Book(id, title, author, pages, read);
@@ -25,8 +29,7 @@ function displayLibrary() {
             index + 1,
             bookObj.title,
             bookObj.author,
-            bookObj.pages,
-            bookObj.read ? "✔" : "✘"
+            bookObj.pages
         ];
 
         bookData.forEach(data => {
@@ -35,6 +38,19 @@ function displayLibrary() {
             div.textContent = data;
             bookList.appendChild(div);
         });
+
+        const readDiv = document.createElement("div");
+        readDiv.classList.add("grid-cell", "book-item");
+        const readButton = document.createElement("button");
+        readButton.textContent = bookObj.read ? "✔" : "✘";
+
+        readButton.addEventListener("click", () => {
+            bookObj.toggleRead();
+            displayLibrary();
+        });
+
+        readDiv.appendChild(readButton);
+        bookList.appendChild(readDiv);
 
         const removeDiv = document.createElement("div");
         removeDiv.classList.add("grid-cell", "book-item");
