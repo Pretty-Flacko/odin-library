@@ -1,8 +1,3 @@
-const myLibrary = [];
-const bookList = document.querySelector(".books");
-const dialog = document.querySelector("dialog");
-const form = document.querySelector("form");
-
 class Book {
     constructor(id, title, author, pages, read) {
         this.id = id;
@@ -38,10 +33,15 @@ class Library {
     }
 }
 
+const myLibrary = new Library();
+const bookList = document.querySelector(".books");
+const dialog = document.querySelector("dialog");
+const form = document.querySelector("form");
+
 function displayLibrary() {
     document.querySelectorAll(".book-item").forEach(book => book.remove());
     
-    myLibrary.forEach((bookObj, index) => {
+    myLibrary.getAllBooks().forEach((bookObj, index) => {
         const bookData = [
             index + 1,
             bookObj.title,
@@ -58,9 +58,9 @@ function displayLibrary() {
 
         const readDiv = document.createElement("div");
         readDiv.classList.add("grid-cell", "book-item");
+        
         const readButton = document.createElement("button");
         readButton.textContent = bookObj.read ? "✔" : "✘";
-
         readButton.addEventListener("click", () => {
             bookObj.toggleRead();
             displayLibrary();
@@ -71,15 +71,14 @@ function displayLibrary() {
 
         const removeDiv = document.createElement("div");
         removeDiv.classList.add("grid-cell", "book-item");
+
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
         removeButton.classList.add("remove-button");
         removeButton.dataset.id = bookObj.id;
 
         removeButton.addEventListener("click", (e) => {
-            const idToRemove = e.target.dataset.id;
-            const index = myLibrary.findIndex((b) => b.id === idToRemove);
-            if (index > -1 ) myLibrary.splice(index, 1);
+            myLibrary.removeBook(e.target.dataset.id);
             displayLibrary();
         });
 
@@ -91,6 +90,7 @@ function displayLibrary() {
 function setupFormControls() {
     const openDialogButton = document.getElementById("add-button");
     const closeDialogButton = document.getElementById("close-button");
+
     openDialogButton.addEventListener("click", () => {
         dialog.showModal();
         form.reset();
@@ -105,14 +105,14 @@ form.addEventListener("submit", (event) => {
     const pages = document.getElementById("book-pages").value;
     const read = document.getElementById("book-read").checked;
 
-    addBookToLibrary(title, author, pages, read);
+    myLibrary.addBook(title, author, pages, read);
     dialog.close();
     displayLibrary();
 });
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "310", true);
-addBookToLibrary("Dune", "Frank Herbert", "412", false);
-addBookToLibrary("1984", "George Orwell", "328", true);
-addBookToLibrary("The Martian", "Andy Weir", "369", false);
+myLibrary.addBook("The Hobbit", "J.R.R. Tolkien", "310", true);
+myLibrary.addBook("Dune", "Frank Herbert", "412", false);
+myLibrary.addBook("1984", "George Orwell", "328", true);
+myLibrary.addBook("The Martian", "Andy Weir", "369", false);
 setupFormControls();
 displayLibrary();
