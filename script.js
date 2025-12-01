@@ -41,9 +41,9 @@ const form = document.querySelector("form");
 function displayLibrary() {
     document.querySelectorAll(".book-item").forEach(book => book.remove());
     
-    myLibrary.getAllBooks().forEach((bookObj, index) => {
+    myLibrary.getAllBooks().forEach((bookObj, bookNum) => {
         const bookData = [
-            index + 1,
+            bookNum + 1,
             bookObj.title,
             bookObj.author,
             bookObj.pages
