@@ -3,22 +3,39 @@ const bookList = document.querySelector(".books");
 const dialog = document.querySelector("dialog");
 const form = document.querySelector("form");
 
-function Book(id, title, author, pages, read) {
-    this.id = id;
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+class Book {
+    constructor(id, title, author, pages, read) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    toggleRead() {
+        this.read = !this.read;
+    }
 }
 
-Book.prototype.toggleRead = function() {
-    this.read = !this.read;
-}
+class Library {
+    constructor() {
+        this.books = [];
+    }
 
-function addBookToLibrary(title, author, pages, read) {
-    const id = self.crypto.randomUUID();
-    const newBook = new Book(id, title, author, pages, read);
-    myLibrary.push(newBook);
+    addBook(title, author, pages, read) {
+        const id = self.crypto.randomUUID();
+        const newBook = new Book(id, title, author, pages, read);
+        this.books.push(newBook);
+    }
+
+    removeBook(idToRemove) {
+        const index = this.books.findIndex((b) => b.id === idToRemove);
+        if (index !== -1 ) this.books.splice(index, 1);
+    }
+
+    getAllBooks() {
+        return this.books;
+    }
 }
 
 function displayLibrary() {
